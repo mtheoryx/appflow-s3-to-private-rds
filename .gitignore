@@ -10,3 +10,4 @@ cdk.out
 node_modules
 .env
 *.pem
+engineer-notes.md

@@ -39,5 +39,20 @@ export class S3ToRdsStack extends cdk.Stack {
     );
 
     // Create the ec2 Instance
+    const ec2Instance = new ec2.Instance(this, "ec2Instance", {
+      vpc,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PUBLIC,
+      },
+      securityGroup: ec2IstanceSG,
+      instanceType: ec2.InstanceType.of(
+        ec2.InstanceClass.BURSTABLE3,
+        ec2.InstanceSize.MICRO
+      ),
+      machineImage: new ec2.AmazonLinuxImage({
+        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+      }),
+      keyName: process.env.KEY_NAME as string,
+    });
   }
 }
