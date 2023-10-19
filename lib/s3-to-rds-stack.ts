@@ -27,6 +27,16 @@ export class S3ToRdsStack extends cdk.Stack {
     });
 
     // Create a security group for the ec2 instance (bastion)
+    const ec2IstanceSG = new ec2.SecurityGroup(this, "ec2InstanceSG", {
+      vpc,
+      securityGroupName: "s3-to-rds-bastion-sg",
+    });
+
+    ec2IstanceSG.addIngressRule(
+      ec2.Peer.ipv4(process.env.IP_SSH_ALLOWED as string),
+      ec2.Port.tcp(22),
+      "Allow SSH access from my IP"
+    );
 
     // Create the ec2 Instance
   }
